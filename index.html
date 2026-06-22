@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>健康飲食管理網站</title>
+
+<style>
+body{
+    font-family:"Microsoft JhengHei",sans-serif;
+    background:#f0fff4;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+    color:#2e8b57;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+    margin-top:20px;
+}
+
+label{
+    display:block;
+    margin-top:10px;
+    font-weight:bold;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+    padding:12px;
+    background:#2e8b57;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#246b45;
+}
+
+.result{
+    display:none;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+th{
+    background:#dff5e6;
+}
+
+ul{
+    line-height:1.8;
+}
+
+.footer{
+    text-align:center;
+    color:#666;
+    margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>健康飲食管理網站</h1>
+
+<div class="card">
+
+<label>身高（公分）</label>
+<input type="number" id="height" placeholder="例如：170">
+
+<label>體重（公斤）</label>
+<input type="number" id="weight" placeholder="例如：65">
+
+<button onclick="calculateBMI()">開始分析</button>
+
+</div>
+
+<div id="result" class="card result"></div>
+
+<div class="footer">
+健康飲食管理系統｜BMI × 七大類食物建議
+</div>
+
+</div>
+
+<script>
+
+function calculateBMI(){
+
+let height = document.getElementById("height").value;
+let weight = document.getElementById("weight").value;
+
+if(height === "" || weight === ""){
+    alert("請輸入完整資料！");
+    return;
+}
+
+height = height / 100;
+
+let bmi = (weight / (height * height)).toFixed(1);
+
+let water = Math.round(weight * 32.5);
+
+let protein = Math.round(weight * 1.2);
+
+let status = "";
+let calories = "";
+let recommendation = "";
+let foods = "";
+
+if(bmi < 18.5){
+
+status = "過輕";
+calories = "2500 kcal";
+
+recommendation = `
+<tr><td>全穀雜糧類</td><td>5~6份</td></tr>
+<tr><td>豆魚蛋肉類</td><td>6份</td></tr>
+<tr><td>乳品類</td><td>2份</td></tr>
+<tr><td>蔬菜類</td><td>3份</td></tr>
+<tr><td>水果類</td><td>3份</td></tr>
+<tr><td>油脂與堅果種子類</td><td>5份</td></tr>
+<tr><td>水分</td><td>2000ml以上</td></tr>
+`;
+
+foods = `
+<ul>
+<li><strong>全穀雜糧：</strong>糙米飯300g、地瓜250g、燕麥80g</li>
+<li><strong>豆魚蛋肉：</strong>雞胸肉150g、鮭魚120g、雞蛋2顆</li>
+<li><strong>乳品：</strong>牛奶500ml、優格200g</li>
+<li><strong>水果：</strong>香蕉240g、芒果200g</li>
+<li><strong>堅果：</strong>杏仁30g、核桃30g</li>
+</ul>
+`;
+}
+
+else if(bmi < 24){
+
+status = "正常";
+calories = "2000 kcal";
+
+recommendation = `
+<tr><td>全穀雜糧類</td><td>4份</td></tr>
+<tr><td>豆魚蛋肉類</td><td>5份</td></tr>
+<tr><td>乳品類</td><td>2份</td></tr>
+<tr><td>蔬菜類</td><td>3份</td></tr>
+<tr><td>水果類</td><td>2份</td></tr>
+<tr><td>油脂與堅果種子類</td><td>4份</td></tr>
+<tr><td>水分</td><td>2000ml以上</td></tr>
+`;
+
+foods = `
+<ul>
+<li><strong>全穀雜糧：</strong>糙米飯250g、全麥麵包120g</li>
+<li><strong>豆魚蛋肉：</strong>雞肉120g、魚肉120g、豆腐100g</li>
+<li><strong>蔬菜：</strong>花椰菜150g、菠菜150g</li>
+<li><strong>水果：</strong>蘋果150g、芭樂150g</li>
+<li><strong>堅果：</strong>腰果20g、杏仁20g</li>
+</ul>
+`;
+}
+
+else if(bmi < 27){
+
+status = "過重";
+calories = "1800 kcal";
+
+recommendation = `
+<tr><td>全穀雜糧類</td><td>3份</td></tr>
+<tr><td>豆魚蛋肉類</td><td>5份</td></tr>
+<tr><td>乳品類</td><td>2份</td></tr>
+<tr><td>蔬菜類</td><td>4份</td></tr>
+<tr><td>水果類</td><td>2份</td></tr>
+<tr><td>油脂與堅果種子類</td><td>3份</td></tr>
+<tr><td>水分</td><td>2000ml以上</td></tr>
+`;
+
+foods = `
+<ul>
+<li><strong>全穀雜糧：</strong>糙米飯200g、燕麥60g</li>
+<li><strong>豆魚蛋肉：</strong>雞胸肉120g、豆腐150g、魚肉100g</li>
+<li><strong>蔬菜：</strong>高麗菜200g、青江菜150g、花椰菜150g</li>
+<li><strong>水果：</strong>芭樂150g、奇異果100g</li>
+<li><strong>堅果：</strong>杏仁15g</li>
+</ul>
+`;
+}
+
+else{
+
+status = "肥胖";
+calories = "1600 kcal";
+
+recommendation = `
+<tr><td>全穀雜糧類</td><td>2~3份</td></tr>
+<tr><td>豆魚蛋肉類</td><td>4份</td></tr>
+<tr><td>乳品類</td><td>2份</td></tr>
+<tr><td>蔬菜類</td><td>5份</td></tr>
+<tr><td>水果類</td><td>2份</td></tr>
+<tr><td>油脂與堅果種子類</td><td>2份</td></tr>
+<tr><td>水分</td><td>2500ml以上</td></tr>
+`;
+
+foods = `
+<ul>
+<li><strong>全穀雜糧：</strong>燕麥50g、糙米飯150g</li>
+<li><strong>豆魚蛋肉：</strong>雞胸肉120g、豆腐150g、鯛魚100g</li>
+<li><strong>蔬菜：</strong>花椰菜200g、菠菜150g、青花菜150g</li>
+<li><strong>水果：</strong>芭樂150g、番茄150g</li>
+<li><strong>堅果：</strong>核桃10g</li>
+</ul>
+`;
+}
+
+document.getElementById("result").style.display = "block";
+
+document.getElementById("result").innerHTML = `
+<h2>分析結果</h2>
+
+<p><strong>BMI：</strong> ${bmi}</p>
+
+<p><strong>身體狀況：</strong> ${status}</p>
+
+<p><strong>建議每日熱量：</strong> ${calories}</p>
+
+<p><strong>建議每日飲水量：</strong> ${water} ml</p>
+
+<p><strong>每日蛋白質需求：</strong> ${protein} g</p>
+
+<h3>七大類食物建議份數</h3>
+
+<table>
+<tr>
+<th>食物類別</th>
+<th>建議份數</th>
+</tr>
+
+${recommendation}
+
+</table>
+
+<h3>推薦食材與建議攝取量</h3>
+
+${foods}
+`;
+}
+</script>
+
+</body>
+</html>
